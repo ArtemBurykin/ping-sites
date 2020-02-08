@@ -1,4 +1,4 @@
-(defproject ping-urls "0.1.0"
+(defproject ping-urls "0.1.1"
   :description "The script allows you to ping pages of a website to check their status"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
