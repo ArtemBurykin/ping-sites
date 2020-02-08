@@ -16,4 +16,4 @@
     (let [config (config/parse-config filename)]
       (print (slack/send-to-slack
               (config/get-slack-hook config)
-              (pinger/ping-urls (config/get-urls config)))))))
+              (pinger/ping-urls-from-list (config/get-urls config)))))))
