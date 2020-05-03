@@ -1,9 +1,9 @@
 (ns ping-urls.config-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [is deftest testing]]
             [test-with-files.core :refer [with-files public-dir]]
             [clojure.java.io :as io]
             [clojure.data.json :as json]
-            [ping-urls.config :refer :all]))
+            [ping-urls.config :refer [parse-config get-urls get-slack-hook]]))
 
 (deftest config-parse-config-test
   (testing "config/parse-config"

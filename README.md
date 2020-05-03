@@ -1,12 +1,14 @@
 # ping-urls
 
-The script allows you to ping pages of a website to check their status. The result is sent to a slack channel.
+The script allows you to ping pages of a website to check their status, then sends the result to a slack channel.
+Also if the --show-only-fails flag is specified it outputs only fails (that is when a site is not available).
 
 ## Usage
 
 Just run the script with a config file.
 ```
-    $ lein run -- {config-file}
+    # --show-only-fails allows to output only fails (when a site is not available)
+    $ lein run {config-file} [--show-only-fails]
 ```
 An example of the config file:
 ```json

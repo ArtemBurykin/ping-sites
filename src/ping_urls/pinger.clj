@@ -7,28 +7,26 @@
 (alter-var-root #'org.httpkit.client/*default-client*
                 (fn [_] sni-client/default-client))
 
-(defn erroneous-status? 
+(defn- erroneous-status?
   "Checks if the status received is erroneous"
   [status]
   (or (str/starts-with? (str status) "4")
       (str/starts-with? (str status) "5")))
 
-(defn ping-url [url]
-  "Pings the url and returns an error message if the url responses with an error"
-  (let [options {:timeout 800}]
-    (let [{:keys [status error] :as resp} @(http/get url)]
-      (if error
-        (str url ": FAIL, exception: " (str error))
-        (if (erroneous-status? status)
-          (str url ": FAIL, status: " status)
-          (str url ": SUCCESS: " status))))))
+(defn- get-status-string-from-response
+  "Gets a status string from the request"
+  [{:keys [status error opts]} show-only-fails]
+  (let [url (:url opts)]
+    (if error
+      (str url ": FAIL, exception: " (str error))
+      (if (erroneous-status? status)
+        (str url ": FAIL, status: " status)
+        (when-not show-only-fails (str url ": SUCCESS: " status))))))
 
 (defn ping-urls-from-list
-  "Pings the URLs and then return a log of the result"
-  [urls]
-  (loop [index 0 log (transient [])]
-    (if (< index (count urls))
-      (recur (inc index)
-             (let [url (get urls index)]
-               (conj! log (ping-url url))))
-      (persistent! log))))
+  "Pings the URLs and then returns a log of the result"
+  [urls show-only-fails]
+  (let [res-futures (doall (map http/get urls))
+        get-status (fn [response] (get-status-string-from-response @response show-only-fails))]
+    (filter (complement nil?) (map get-status res-futures))))
+

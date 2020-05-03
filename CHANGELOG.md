@@ -7,3 +7,6 @@ All notable changes to this project will be documented in this file. This change
 ## 0.1.1 - 2020-02-08
 ### Fixes
 - Fixed the problem with SSL. It's capable of pinging websites with HTTPS now.
+## 0.2.0 - 2020-03-05
+### Added
+- Added the --show-only-fails flag which makes the script output only fails.
